@@ -76,8 +76,9 @@ const play = async () => {
         
         await sleep(250)
         tries++
-        console.log(`${tries}/5`)
+        if (tries < 6) console.log(`${tries}/6`)
     }
+    console.log('\n')
     console.log('Game over!')
     console.log(`The correct word was: ${puzzle}! 🤯`)
     sleep()
