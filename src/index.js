@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 import prompts from 'prompts'
 import chalk from 'chalk'
 import chalkAnimation from 'chalk-animation'
@@ -8,16 +9,16 @@ import words from './words.js'
 
 const sleep = (ms = 1500) => new Promise(r => setTimeout(r, ms))
 
-const inputPrompt: any = {
+const inputPrompt = {
     type: 'text',
     name: 'guess',
     message: 'Enter a 5 letter word:',
-    validate: (value: String) => 
+    validate: value => 
         value.length != 5 ? 'Word must be 5 letters.' : true
 }
 
-const check = async (input: String, puzzle: String) => {
-    let results: Array<string> = []
+const check = async (input, puzzle) => {
+    let results = []
     input.split('').forEach((letter, index) => {
         let formattedLetter = ' ' + letter + ' '
         if (puzzle[index] === letter) {
@@ -33,7 +34,7 @@ const check = async (input: String, puzzle: String) => {
 
 const hello = async () => {
     figlet.text('CLI-WORDLE', (err, data) => {
-        if (err) console.error(err)
+        if (err) console.error('CLI-WORDLE: Title error: ' + err)
         console.log(gradient.pastel.multiline(data))
     })
     await sleep()
@@ -59,7 +60,7 @@ const play = async () => {
         const guess = response.guess.toUpperCase()
         await check(guess, puzzle)
             .then(res => 
-                res.forEach((letter: string) => {
+                res.forEach(letter => {
                     process.stdout.write(letter)
                     process.stdout.write(' ')
                 })
@@ -69,7 +70,7 @@ const play = async () => {
 
         if (guess === puzzle) {
             console.log('\n')
-            chalkAnimation.rainbow('You win! 👏')
+            chalkAnimation.rainbow('You win! 🎉')
             await sleep()
             await playAgain()
         }
@@ -80,7 +81,7 @@ const play = async () => {
     }
     console.log('\n')
     console.log('Game over!')
-    console.log(`The correct word was: ${puzzle}! 🤯`)
+    console.log(`The correct word was: ${chalk.white.bold.bgBlackBright(puzzle)} 🤯`)
     sleep()
     await playAgain()
 }
@@ -102,7 +103,10 @@ const playAgain = async () => {
     process.exit(0)
 }
 
-await hello()
-await rules()
-await play()
-export {}
+const loop = async () => { 
+    console.clear()
+    await hello()
+    await rules()
+    await play()
+}
+loop()
