@@ -81,7 +81,7 @@ const play = async () => {
     }
     console.log('\n')
     console.log('Game over!')
-    console.log(`The correct word was: ${chalk.white.bold.bgBlackBright(puzzle)} 🤯`)
+    console.log(`The correct word was: ${chalk.white.bold.bgBlackBright(' ' + puzzle + ' ')} 🤯`)
     sleep()
     await playAgain()
 }
