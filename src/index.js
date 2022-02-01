@@ -47,7 +47,7 @@ const rules = async () => {
     await sleep(500)
     console.log(`If a letter is in the correct space, it will appear ${chalk.black.bgGreen('green')}. If it's the correct letter in the wrong space, it will appear ${chalk.black.bgYellowBright('yellow')}. If it's not in the word, it'll appear ${chalk.white.bgBlackBright('black')}.`)
     await sleep()
-    console.log("Let's begin!")
+    console.log("Let's begin! 👾")
     await sleep()
     console.log('\n')
 }
@@ -82,7 +82,7 @@ const play = async () => {
     console.log('\n')
     console.log('Game over!')
     console.log(`The correct word was: ${chalk.white.bold.bgBlackBright(' ' + puzzle + ' ')} 🤯`)
-    sleep()
+    await sleep()
     await playAgain()
 }
 
