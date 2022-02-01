@@ -9,6 +9,15 @@ To play, run:
 ```bash
 npx cli-wordle
 ```
+or install globally with
+```bash
+npm i -g cli-wordle
+```
+and run with
+```bash
+cli-wordle
+```
+
 
 Wordle is a game designed by Josh Wardle.
 The game's rules are simple:
