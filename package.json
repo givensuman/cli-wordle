@@ -9,6 +9,11 @@
   "private": false,
   "type": "module",
   "bin": "src/index.js",
+  "keywords": [
+    "cli",
+    "wordle",
+    "game"
+  ],
   "scripts": {
     "start": "node src/index.js"
   },
