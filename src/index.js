@@ -5,7 +5,8 @@ import chalk from 'chalk'
 import chalkAnimation from 'chalk-animation'
 import figlet from 'figlet'
 import gradient from 'gradient-string'
-import words from './words.js'
+import puzzleWords from './puzzleWords.js'
+import validWords from './validWords.js'
 
 const sleep = (ms = 1500) => new Promise(r => setTimeout(r, ms))
 
@@ -13,8 +14,11 @@ const inputPrompt = {
     type: 'text',
     name: 'guess',
     message: 'Enter a 5 letter word:',
-    validate: value => 
-        value.length != 5 ? 'Word must be 5 letters.' : true
+    validate: value => {
+        if (value.length != 5) return 'Word must be 5 letters.'
+        else if (!validWords.includes(value)) return 'Not a recognized word.'
+        return true
+    }
 }
 
 const check = async (input, puzzle) => {
@@ -53,7 +57,7 @@ const rules = async () => {
 }
 
 const play = async () => {
-    const puzzle = words[Math.floor(Math.random() * words.length)].toUpperCase()
+    const puzzle = puzzleWords[Math.floor(Math.random() * puzzleWords.length)].toUpperCase()
     let tries = 0
     while (tries < 6) {
         const response = await prompts(inputPrompt)
