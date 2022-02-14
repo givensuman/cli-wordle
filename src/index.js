@@ -21,13 +21,56 @@ const inputPrompt = {
     }
 }
 
+const handleYellow = (guess, index, puzzle) => {
+    // as a fallback from correct guesses
+    //
+    // If guess has duplicates and both are in wrong position and puzzle only has one letter, mark first as yellow
+    // If guess has duplicates and both are in wrong position and puzzle has duplicates, mark both as yellow
+    // If guess has duplicates and one is in wrong position and one is in correct position, mark wrong position as yellow
+    // If guess has duplicates and one is in wrong position and puzzle has only one, mark wrong position as black
+
+    const guessArray = guess.split('')
+    const puzzleArray = puzzle.split('')
+
+    const letterIsInGuessBefore = () => 
+        guessArray.indexOf(guess[index]) < index
+
+    // I don't think there's any 5 letter words in the list that have triplets
+    const puzzleContainsLetterMultipleTimes = () =>
+        puzzleArray.filter(letter => letter === guess[index]).length > 1
+
+    const guessContainsLetterInCorrectLocation = () => {
+        let contains = false
+        puzzleArray.forEach((letter, puzzleIndex) => {
+            if (letter === guess[puzzleIndex] && letter === guess[index]) {
+                contains = true
+            }
+        })
+        return contains
+    }
+
+    // true sets as yellow, false fallbacks to set as black
+    if (puzzle.includes(guess[index])) {
+        if (puzzleContainsLetterMultipleTimes()) return true
+        else if (!puzzleContainsLetterMultipleTimes()) {
+            if (letterIsInGuessBefore()) return false
+            if (!letterIsInGuessBefore() && guessContainsLetterInCorrectLocation()) {
+                console.log('uhoh')
+                return false
+            }
+            return true
+        }
+    }
+    return false
+}
+
 const check = async (input, puzzle) => {
     let results = []
     input.split('').forEach((letter, index) => {
         let formattedLetter = ' ' + letter + ' '
         if (puzzle[index] === letter) {
             results.push(chalk.black.bold.bgGreen(formattedLetter))
-        } else if (puzzle.includes(letter)) {
+        } else if (handleYellow(input, index, puzzle)) {
             results.push(chalk.black.bold.bgYellowBright(formattedLetter))
         } else {
             results.push(chalk.white.bold.bgBlackBright(formattedLetter))
@@ -113,4 +156,11 @@ const loop = async () => {
     await rules()
     await play()
 }
+
+process.on('SIGINT', () => {
+    console.log('\n')
+    console.log('Thanks for playing!')
+    process.exit(0)
+})
+
 loop()
