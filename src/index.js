@@ -55,7 +55,6 @@ const handleYellow = (guess, index, puzzle) => {
         else if (!puzzleContainsLetterMultipleTimes()) {
             if (letterIsInGuessBefore()) return false
             if (!letterIsInGuessBefore() && guessContainsLetterInCorrectLocation()) {
-                console.log('uhoh')
                 return false
             }
             return true
