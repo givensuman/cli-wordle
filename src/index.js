@@ -35,7 +35,6 @@ const handleYellow = (guess, index, puzzle) => {
     const letterIsInGuessBefore = () => 
         guessArray.indexOf(guess[index]) < index
 
-    // I don't think there's any 5 letter words in the list that have triplets
     const puzzleContainsLetterMultipleTimes = () =>
         puzzleArray.filter(letter => letter === guess[index]).length > 1
 
